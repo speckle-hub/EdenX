@@ -2,11 +2,12 @@
 // EdenX - Pornstars Listing Page Logic
 // ============================================
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initHeader();
     initSearch();
     initAlphaNav();
     initFilters();
+    await loadAllData();
     loadPornstars();
 });
 
