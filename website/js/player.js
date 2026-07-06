@@ -55,9 +55,10 @@ function loadVideoPlayer() {
     document.getElementById('videoDate').textContent = video.date || 'Unknown';
     document.getElementById('videoRating').textContent = (video.rating || 0) + ' rating';
     
+    const sourceUrl = getSourceUrl(video);
     const sourceEl = document.getElementById('videoSource');
     sourceEl.querySelector('span:last-child').textContent = video.source || 'Unknown';
-    sourceEl.onclick = () => window.open(video.embedUrl || video.sourceUrl, '_blank');
+    sourceEl.onclick = () => window.open(sourceUrl, '_blank');
     
     // Load tags
     const tagsContainer = document.getElementById('videoTags');
@@ -66,7 +67,7 @@ function loadVideoPlayer() {
     ).join('');
     
     // Download/Source button
-    document.getElementById('downloadBtn').href = video.embedUrl || video.sourceUrl || '#';
+    document.getElementById('downloadBtn').href = sourceUrl;
     
     // Load related videos
     loadRelatedVideos(video);
@@ -77,46 +78,42 @@ function loadVideoPlayer() {
 
 function loadEmbed(video) {
     const wrapper = document.getElementById('playerWrapper');
+    const sourceUrl = getSourceUrl(video);
     
-    if (video.embedUrl) {
-        // Use real iframe embed
-        wrapper.innerHTML = `<iframe 
-            src="${video.embedUrl}" 
-            frameborder="0" 
-            allowfullscreen 
-            allow="autoplay; fullscreen"
-            style="width:100%;height:100%;border:none;"
-        ></iframe>`;
-    } else {
-        // Fallback: direct link button if no embed URL
-        wrapper.innerHTML = `
-            <div style="
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(135deg, #111 0%, #1a1a25 100%);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                gap: 1rem;
-            ">
-                <div style="font-size: 4rem;">&#127909;</div>
-                <div style="
-                    background: var(--gradient-primary);
-                    padding: 1rem 2rem;
-                    border-radius: 50px;
-                    cursor: pointer;
-                    font-weight: 600;
-                    display: flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                " onclick="window.open('${video.sourceUrl}', '_blank')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    wrapper.innerHTML = `
+        <div style="position:relative;width:100%;height:100%;cursor:pointer;overflow:hidden;"
+             onclick="window.open('${sourceUrl}', '_blank')">
+            <img src="${video.thumbnail}" alt="${video.title}" 
+                 style="width:100%;height:100%;object-fit:cover;"
+                 onerror="this.style.display='none'">
+            <div style="position:absolute;top:0;left:0;width:100%;height:100%;
+                        background:rgba(0,0,0,0.5);
+                        display:flex;align-items:center;justify-content:center;
+                        flex-direction:column;gap:1rem;">
+                <div style="width:80px;height:80px;border-radius:50%;
+                            background:rgba(255,45,85,0.95);
+                            display:flex;align-items:center;justify-content:center;
+                            font-size:2rem;color:white;transition:transform 0.2s;
+                            box-shadow:0 4px 20px rgba(255,45,85,0.4);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+                <div style="background:var(--gradient-primary);padding:0.8rem 2rem;
+                            border-radius:50px;font-weight:600;font-size:1.1rem;
+                            box-shadow:0 4px 15px rgba(0,0,0,0.3);">
                     Watch on ${video.source}
                 </div>
             </div>
-        `;
+        </div>
+    `;
+}
+
+function getSourceUrl(video) {
+    const embed = video.embedUrl || '';
+    // Convert embed URLs to source page URLs (xvideos, xnxx)
+    if (embed.includes('/embedframe/')) {
+        return embed.replace('/embedframe/', '/video/');
     }
+    return embed;
 }
 
 // ============================================
