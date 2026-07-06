@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdenX | Premium MILF Content</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127800;</text></svg>">
+</head>
+<body>
+
+    <!-- Age Gate Modal -->
+    <div class="modal-overlay active" id="ageGate">
+        <div class="modal">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">&#127800;</div>
+            <h2>Are you 18 or older?</h2>
+            <p>This website contains adult material. By entering, you confirm you are at least 18 years of age and consent to viewing adult content.</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="window.location.href='https://google.com'">Exit</button>
+                <button class="btn btn-primary" onclick="enterSite()">Enter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <a href="index.html" class="logo">
+            <span class="eden">Eden</span><span class="x">X</span>
+        </a>
+        
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="pornstars.html">Pornstars</a></li>
+                <li><a href="trending.html">Trending</a></li>
+                <li><a href="new.html">New</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <div class="search-container">
+                <div class="search-bar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" placeholder="Search videos..." id="searchInput">
+                    <button type="button" id="searchBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                <div class="search-suggestions" id="searchSuggestions">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">&#10024; Premium Collection</div>
+            <h1>Discover the Finest <span class="highlight">MILF</span> Content</h1>
+            <p>Curated premium videos from the world's top studios. Updated daily with the hottest content.</p>
+            <div class="hero-actions">
+                <a href="#trending" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    Trending Now
+                </a>
+                <a href="categories.html" class="btn btn-secondary">
+                    Browse Categories
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Category Pills -->
+        <div class="categories-bar" id="categoryPills">
+            <div class="category-pill active" data-category="all">
+                <span class="emoji">&#127775;</span> All
+            </div>
+            <div class="category-pill" data-category="stepmom">
+                <span class="emoji">&#128105;</span> Stepmom
+            </div>
+            <div class="category-pill" data-category="milf">
+                <span class="emoji">&#127800;</span> MILF
+            </div>
+            <div class="category-pill" data-category="mature">
+                <span class="emoji">&#128119;</span> Mature
+            </div>
+            <div class="category-pill" data-category="teacher">
+                <span class="emoji">&#127891;</span> Teacher
+            </div>
+            <div class="category-pill" data-category="neighbor">
+                <span class="emoji">&#127968;</span> Neighbor
+            </div>
+            <div class="category-pill" data-category="boss">
+                <span class="emoji">&#128188;</span> Boss
+            </div>
+            <div class="category-pill" data-category="massage">
+                <span class="emoji">&#129506;</span> Massage
+            </div>
+            <div class="category-pill" data-category="anal">
+                <span class="emoji">&#128293;</span> Anal
+            </div>
+            <div class="category-pill" data-category="big-ass">
+                <span class="emoji">&#128170;</span> Big Ass
+            </div>
+            <div class="category-pill" data-category="big-tits">
+                <span class="emoji">&#128138;</span> Big Tits
+            </div>
+            <div class="category-pill" data-category="threesome">
+                <span class="emoji">&#129309;</span> Threesome
+            </div>
+        </div>
+
+        <!-- Trending Section -->
+        <section id="trending">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="icon">&#128293;</span> Trending
+                    <span class="count">(248 videos)</span>
+                </h2>
+                <a href="trending.html" class="view-all">View All <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            </div>
+            <div class="video-grid" id="trendingGrid">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Latest Updates -->
+        <section style="margin-top: 3rem;">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="icon">&#9200;</span> Latest Updates
+                    <span class="count">(1,247 videos)</span>
+                </h2>
+                <a href="new.html" class="view-all">View All <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            </div>
+            <div class="video-grid" id="latestGrid">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Top Rated -->
+        <section style="margin-top: 3rem;">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="icon">&#11088;</span> Top Rated
+                    <span class="count">(534 videos)</span>
+                </h2>
+                <a href="toprated.html" class="view-all">View All <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            </div>
+            <div class="video-grid" id="topRatedGrid">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <span class="eden">Eden</span><span class="x">X</span>
+                </div>
+                <p>Premium curated MILF content from the world's top studios. Updated daily.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Browse</h4>
+                <ul>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="pornstars.html">Pornstars</a></li>
+                    <li><a href="trending.html">Trending</a></li>
+                    <li><a href="new.html">New Videos</a></li>
+                    <li><a href="toprated.html">Top Rated</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Top Pornstars</h4>
+                <ul>
+                    <li><a href="pornstar.html?id=ps003">Lisa Ann</a></li>
+                    <li><a href="pornstar.html?id=ps001">Brandi Love</a></li>
+                    <li><a href="pornstar.html?id=ps006">Kendra Lust</a></li>
+                    <li><a href="pornstar.html?id=ps010">Nina Hartley</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">2257 Statement</a></li>
+                    <li><a href="#">DMCA</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 EdenX. All rights reserved.</span>
+            <span>18 U.S.C. 2257 Record-Keeping Requirements Compliance Statement</span>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

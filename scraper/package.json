@@ -1,0 +1,22 @@
+{
+  "name": "edenx-scraper",
+  "version": "1.0.0",
+  "description": "EdenX MILF content scraper",
+  "main": "src/index.js",
+  "scripts": {
+    "scrape": "node src/index.js",
+    "scrape:normal": "node src/index.js -c normal",
+    "scrape:hentai": "node src/index.js -c hentai",
+    "scrape:jav": "node src/index.js -c jav",
+    "scrape:all": "node src/index.js -c normal,hentai,jav -p 5"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.18.1",
+    "cheerio": "^1.2.0",
+    "node-fetch": "^2.7.0"
+  }
+}
