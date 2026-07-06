@@ -8,13 +8,23 @@ let _dataLoaded = false;
 async function loadAllData() {
     if (_dataLoaded) return _allVideos;
     const categories = ['normal', 'hentai', 'jav'];
-    const results = await Promise.allSettled(
-        categories.map(cat => fetch(`data/${cat}.json`).then(r => r.ok ? r.json() : { videos: [] }))
-    );
-    _allVideos = results
-        .filter(r => r.status === 'fulfilled')
-        .flatMap(r => r.value.videos || []);
+
+    const loadCat = async (cat) => {
+        try {
+            const r = await fetch(`data/${cat}.json`);
+            if (!r.ok) return [];
+            const d = await r.json();
+            return d.videos || [];
+        } catch (e) {
+            console.warn(`Failed to load ${cat}:`, e);
+            return [];
+        }
+    };
+
+    const results = await Promise.all(categories.map(loadCat));
+    _allVideos = results.flat();
     _dataLoaded = true;
+    console.log(`Loaded ${_allVideos.length} videos`);
     return _allVideos;
 }
 

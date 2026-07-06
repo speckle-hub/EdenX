@@ -119,7 +119,13 @@ function loadVideoGrids() {
     };
     for (const [id, videos] of Object.entries(grids)) {
         const grid = document.getElementById(id);
-        if (grid) grid.innerHTML = videos.map((v, i) => createVideoCard(v, i === 0)).join('');
+        if (!grid) continue;
+        if (videos.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
+                <p>No videos yet. Run the scraper to add content.</p></div>`;
+        } else {
+            grid.innerHTML = videos.map((v, i) => createVideoCard(v, i === 0)).join('');
+        }
     }
 }
 
