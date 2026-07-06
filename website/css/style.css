@@ -609,6 +609,18 @@ img {
     font-weight: 500;
 }
 
+.category-badge {
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.badge-normal { background: rgba(255, 45, 85, 0.2); color: #ff2d55; }
+.badge-hentai { background: rgba(138, 43, 226, 0.2); color: #a855f7; }
+.badge-jav { background: rgba(255, 107, 53, 0.2); color: #ff6b35; }
+
 /* ============================================
    Video Card - Large (Featured)
    ============================================ */
