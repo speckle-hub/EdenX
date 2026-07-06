@@ -51,22 +51,22 @@ function loadVideoPlayer() {
     
     // Update video info
     document.getElementById('videoTitle').textContent = video.title;
-    document.getElementById('videoViews').textContent = video.views + ' views';
-    document.getElementById('videoDate').textContent = video.date;
-    document.getElementById('videoRating').textContent = video.rating + ' rating';
+    document.getElementById('videoViews').textContent = (video.views || 0) + ' views';
+    document.getElementById('videoDate').textContent = video.date || 'Unknown';
+    document.getElementById('videoRating').textContent = (video.rating || 0) + ' rating';
     
     const sourceEl = document.getElementById('videoSource');
-    sourceEl.querySelector('span:last-child').textContent = video.source;
-    sourceEl.onclick = () => window.open(video.sourceUrl, '_blank');
+    sourceEl.querySelector('span:last-child').textContent = video.source || 'Unknown';
+    sourceEl.onclick = () => window.open(video.embedUrl || video.sourceUrl, '_blank');
     
     // Load tags
     const tagsContainer = document.getElementById('videoTags');
-    tagsContainer.innerHTML = video.tags.map(tag => 
+    tagsContainer.innerHTML = (video.tags || []).map(tag => 
         `<a href="search.html?q=${encodeURIComponent(tag)}" class="player-tag">${tag}</a>`
     ).join('');
     
     // Download/Source button
-    document.getElementById('downloadBtn').href = video.sourceUrl;
+    document.getElementById('downloadBtn').href = video.embedUrl || video.sourceUrl || '#';
     
     // Load related videos
     loadRelatedVideos(video);
@@ -78,48 +78,45 @@ function loadVideoPlayer() {
 function loadEmbed(video) {
     const wrapper = document.getElementById('playerWrapper');
     
-    // For demo purposes, we show a placeholder
-    // In production, the embed URL would be a real embeddable player URL
-    
-    // Example of how real embeds work:
-    // Some sites provide iframe embeds like:
-    // https://www.sitename.com/embed/VIDEO_ID
-    
-    // For this demo, we create a styled placeholder
-    wrapper.innerHTML = `
-        <div style="
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #111 0%, #1a1a25 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 1rem;
-        ">
-            <div style="font-size: 4rem;">&#127909;</div>
+    if (video.embedUrl) {
+        // Use real iframe embed
+        wrapper.innerHTML = `<iframe 
+            src="${video.embedUrl}" 
+            frameborder="0" 
+            allowfullscreen 
+            allow="autoplay; fullscreen"
+            style="width:100%;height:100%;border:none;"
+        ></iframe>`;
+    } else {
+        // Fallback: direct link button if no embed URL
+        wrapper.innerHTML = `
             <div style="
-                background: var(--gradient-primary);
-                padding: 1rem 2rem;
-                border-radius: 50px;
-                cursor: pointer;
-                font-weight: 600;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, #111 0%, #1a1a25 100%);
                 display: flex;
                 align-items: center;
-                gap: 0.5rem;
-                transition: transform 0.3s;
-            " onclick="window.open('${video.sourceUrl}', '_blank')">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                Watch on ${video.source}
+                justify-content: center;
+                flex-direction: column;
+                gap: 1rem;
+            ">
+                <div style="font-size: 4rem;">&#127909;</div>
+                <div style="
+                    background: var(--gradient-primary);
+                    padding: 1rem 2rem;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                " onclick="window.open('${video.sourceUrl}', '_blank')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Watch on ${video.source}
+                </div>
             </div>
-            <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; max-width: 400px;">
-                Click to watch the full video on the official ${video.source} website
-            </p>
-        </div>
-    `;
-    
-    // If you have real embed URLs, use this instead:
-    // wrapper.innerHTML = `<iframe src="${video.embedUrl}" allowfullscreen></iframe>`;
+        `;
+    }
 }
 
 // ============================================

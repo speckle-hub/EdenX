@@ -146,10 +146,23 @@ async function main() {
     if (fs.existsSync(pornstarsFile)) {
         const psData = JSON.parse(fs.readFileSync(pornstarsFile, 'utf8'));
         pornstarsList = psData.pornstars.map(p => p.name);
-        // Shuffle and take 5 to avoid rate limits
-        pornstarsList = pornstarsList.sort(() => 0.5 - Math.random()).slice(0, 5);
+        // Shuffle and take 10 to cover more pornstars per run
+        pornstarsList = pornstarsList.sort(() => 0.5 - Math.random()).slice(0, 10);
         console.log(`Targeting ${pornstarsList.length} pornstars: ${pornstarsList.join(', ')}`);
     }
+
+    // Hentai uses fixed anime/cartoon search terms (not real pornstar names)
+    const HENTAI_TERMS = [
+        'hentai milf', 'anime milf', 'hentai mom', 'anime wife', 'hentai housewife',
+        'anime big tits hentai', 'milf hentai uncensored', 'hentai stepmom'
+    ];
+
+    // JAV uses actual Japanese actress names
+    const JAV_ACTRESSES = [
+        'Yui Hatano', 'Sola Aoi', 'Hitomi Tanaka', 'Julia Boin', 'Rion Nishikawa',
+        'Ai Uehara', 'Tsubomi', 'Nana Ogura', 'Miku Ohashi', 'Rin Sakuragi',
+        'Momoka Nishina', 'Maria Ozawa', 'Aika Hoshino', 'Yua Mikami', 'Aimi Yoshikawa'
+    ];
 
     for (const category of options.categories) {
         if (!SCRAPERS[category]) {
@@ -160,16 +173,32 @@ async function main() {
         console.log(`\n--- Scraping ${category.toUpperCase()} ---`);
 
         for (const { name, scraper: ScraperClass } of SCRAPERS[category]) {
-            if (pornstarsList.length > 0) {
-                // Search for each selected pornstar
-                for (const psName of pornstarsList) {
-                    const videos = await runScraper(ScraperClass, options.pages, psName);
+            if (category === 'normal') {
+                // Normal: search by real MILF pornstar names from website list
+                if (pornstarsList.length > 0) {
+                    for (const psName of pornstarsList) {
+                        const videos = await runScraper(ScraperClass, options.pages, psName);
+                        results[category].push(...videos);
+                    }
+                } else {
+                    const videos = await runScraper(ScraperClass, options.pages);
                     results[category].push(...videos);
                 }
-            } else {
-                // Fallback to generic if no pornstars found
-                const videos = await runScraper(ScraperClass, options.pages);
-                results[category].push(...videos);
+            } else if (category === 'hentai') {
+                // Hentai: use fixed anime/hentai search terms — NOT real pornstar names
+                const terms = HENTAI_TERMS.sort(() => 0.5 - Math.random()).slice(0, 3);
+                for (const term of terms) {
+                    const videos = await runScraper(ScraperClass, options.pages, term);
+                    results[category].push(...videos);
+                }
+            } else if (category === 'jav') {
+                // JAV: use actual Japanese actress names
+                const actresses = JAV_ACTRESSES.sort(() => 0.5 - Math.random()).slice(0, 5);
+                console.log(`  JAV targeting: ${actresses.join(', ')}`);
+                for (const actress of actresses) {
+                    const videos = await runScraper(ScraperClass, options.pages, actress);
+                    results[category].push(...videos);
+                }
             }
         }
 

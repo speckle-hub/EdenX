@@ -164,7 +164,7 @@ function loadPornstarVideos(pornstar, sort = 'latest') {
     // Sort videos
     switch (sort) {
         case 'popular':
-            videos = [...videos].sort((a, b) => b.viewsNum - a.viewsNum);
+            videos = [...videos].sort((a, b) => (b.views || 0) - (a.views || 0));
             break;
         case 'top-rated':
             videos = [...videos].sort((a, b) => parseInt(b.rating) - parseInt(a.rating));

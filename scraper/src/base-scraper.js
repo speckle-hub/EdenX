@@ -65,11 +65,14 @@ class BaseScraper {
                 console.log(`  [${this.name}] No results on page ${page}, stopping.`);
                 break;
             }
-            // If we searched for a pornstar, tag the video with her name
+            // If we searched for a pornstar, tag the video with the name
             if (query) {
                 videos.forEach(v => {
-                    if (!v.pornstars.includes(query)) v.pornstars.push(query);
                     if (!v.tags.includes(query)) v.tags.push(query);
+                    // Only add to pornstars if it's NOT a hentai search term
+                    if (this.category !== 'hentai' && !v.pornstars.includes(query)) {
+                        v.pornstars.push(query);
+                    }
                 });
             }
             allVideos.push(...videos);

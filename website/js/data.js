@@ -133,7 +133,15 @@ function searchPornstars(query) {
 }
 
 function getVideosByPornstar(pornstarId) {
-    return getRandomVideos(12);
+    // Look up the pornstar's name first
+    const ps = getPornstarById(pornstarId);
+    if (!ps) return [];
+    const name = ps.name.toLowerCase();
+    // Filter videos where pornstars array or tags contain the pornstar's name
+    return _allVideos.filter(v =>
+        (v.pornstars || []).some(p => p.toLowerCase() === name) ||
+        (v.tags || []).some(t => t.toLowerCase() === name)
+    );
 }
 
 function getPopularPornstarTags() {

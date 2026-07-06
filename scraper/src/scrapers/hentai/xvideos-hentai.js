@@ -8,7 +8,8 @@ class XvideosHentaiScraper extends BaseScraper {
 
     
     getSearchUrl(query, page) {
-        return `${this.baseUrl}/?k=${encodeURIComponent(query)}&p=${page}`;
+        // Force hentai tag alongside the search query
+        return `${this.baseUrl}/?k=${encodeURIComponent(query + ' hentai')}&p=${page}`;
     }
 
     getPageUrl(page) {
