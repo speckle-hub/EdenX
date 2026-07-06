@@ -7,7 +7,7 @@ class YoupornScraper extends BaseScraper {
     }
 
     getPageUrl(page) {
-        return `${this.baseUrl}/newest/?page=${page}`;
+        return `${this.baseUrl}/hot/${page}`;
     }
 
     async scrapePage(url) {

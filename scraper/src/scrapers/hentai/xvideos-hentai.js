@@ -7,7 +7,7 @@ class XvideosHentaiScraper extends BaseScraper {
     }
 
     getPageUrl(page) {
-        return `${this.baseUrl}/categories/hentai-video?page=${page}`;
+        return `${this.baseUrl}/best/${page}/month?k=hentai`;
     }
 
     async scrapePage(url) {
@@ -15,7 +15,7 @@ class XvideosHentaiScraper extends BaseScraper {
         if (!$) return [];
 
         const videos = [];
-        $('.mozaique .thumb-block, #video-advent-thumb-block-default .thumb-block').each((_, el) => {
+        $('.mozaique .thumb-block').each((_, el) => {
             const $el = $(el);
             const title = $el.find('.thumb-under a').attr('title') || $el.find('.thumb-under a').text().trim();
             const href = $el.find('.thumb-under a').attr('href');

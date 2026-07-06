@@ -41,7 +41,7 @@ const SCRAPERS = {
     ],
 };
 
-const OUTPUT_DIR = path.join(__dirname, '..', 'website', 'data');
+const OUTPUT_DIR = path.join(__dirname, '..', '..', 'website', 'data');
 
 function parseArgs() {
     const args = process.argv.slice(2);

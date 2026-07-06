@@ -6,64 +6,23 @@ class PornhubHentaiScraper extends BaseScraper {
         super('Pornhub Hentai', 'hentai', 'https://www.pornhub.com');
     }
 
-    getPageUrl(page) {
-        return `${this.baseUrl}/pornstars/most-subscribed?category=hentai&page=${page}`;
-    }
-
-    async scrapePage(url) {
-        const $ = await this.fetchPage(url);
-        if (!$) return [];
-
-        const videos = [];
-        $('.videoBox, li.videoblock').each((_, el) => {
-            const $el = $(el);
-            const title = $el.find('a[href^="/view_video"] span.title, a.videoLink').attr('title')
-                || $el.find('a[href^="/view_video"]').text().trim();
-            const href = $el.find('a[href^="/view_video"]').attr('href');
-            const thumbnail = $el.find('img').attr('data-src') || $el.find('img').attr('src');
-            const duration = parseDuration($el.find('.duration, span.duration').text());
-            const rating = parseFloat($el.find('.rating-percent span').text()) || 0;
-
-            if (href && title) {
-                const videoId = href.match(/view_video=(\d+)/)?.[1];
-                const embedUrl = videoId
-                    ? `https://www.pornhub.com/embed/${videoId}`
-                    : `https://www.pornhub.com${href}`;
-
-                videos.push(this.buildVideo({
-                    title,
-                    embedUrl,
-                    thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
-                    duration,
-                    rating: Math.round(rating),
-                    tags: ['Hentai'],
-                }));
-            }
-        });
-
-        return videos;
-    }
-
-    async scrape(pagesToScrape = 5) {
+    async scrape(pagesToScrape = 3) {
         console.log(`\n[${this.name}] Starting hentai scrape...`);
         const allVideos = [];
-        const urls = [
-            `${this.baseUrl}/video?category=hentai&page=`,
-            `${this.baseUrl}/video?category=anime&page=`,
-        ];
+        const pages = ['hentai', 'anime', 'cartoon'];
 
-        for (const baseUrl of urls) {
+        for (const tag of pages) {
             for (let page = 1; page <= pagesToScrape; page++) {
-                console.log(`  [${this.name}] Page ${page}/${pagesToScrape}...`);
-                const $ = await this.fetchPage(`${baseUrl}${page}`);
+                console.log(`  [${this.name}] ${tag} page ${page}/${pagesToScrape}...`);
+                const $ = await this.fetchPage(`${this.baseUrl}/video?p=${page}&tags=${tag}&search=`);
                 if (!$) continue;
 
                 const videos = [];
-                $('.videoBox, li.videoblock').each((_, el) => {
+                $('li.videoblock, .videoBox').each((_, el) => {
                     const $el = $(el);
-                    const title = $el.find('a[href^="/view_video"] span.title').attr('title')
-                        || $el.find('a[href^="/view_video"]').text().trim();
-                    const href = $el.find('a[href^="/view_video"]').attr('href');
+                    const a = $el.find('a[href*="/view_video"]');
+                    const title = a.attr('title') || a.text().trim();
+                    const href = a.attr('href');
                     const thumbnail = $el.find('img').attr('data-src') || $el.find('img').attr('src');
                     const duration = parseDuration($el.find('.duration').text());
 
@@ -81,13 +40,13 @@ class PornhubHentaiScraper extends BaseScraper {
                     }
                 });
 
-                if (videos.length === 0) break;
+                if (!videos.length) break;
                 allVideos.push(...videos);
-                console.log(`  [${this.name}] Got ${videos.length} videos (total: ${allVideos.length})`);
+                console.log(`  [${this.name}] Got ${videos.length} (total: ${allVideos.length})`);
             }
         }
 
-        console.log(`  [${this.name}] Done. ${allVideos.length} videos scraped.`);
+        console.log(`  [${this.name}] Done. ${allVideos.length} videos.`);
         return allVideos;
     }
 }

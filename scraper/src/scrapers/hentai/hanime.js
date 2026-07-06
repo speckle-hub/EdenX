@@ -7,7 +7,7 @@ class HanimeScraper extends BaseScraper {
     }
 
     getPageUrl(page) {
-        return `${this.baseUrl}/hentai?page=${page}`;
+        return `${this.baseUrl}/hentai/videos`;
     }
 
     async scrapePage(url) {
@@ -15,21 +15,18 @@ class HanimeScraper extends BaseScraper {
         if (!$) return [];
 
         const videos = [];
-        $('.eplister li, .video-card, div[class*="video"]').each((_, el) => {
+        $('a[href*="/hentai/"]').each((_, el) => {
             const $el = $(el);
-            const title = $el.find('h2, .entry-title, .video-title').text().trim()
-                || $el.find('a').attr('title');
-            const href = $el.find('a').attr('href');
+            const title = $el.attr('title') || $el.text().trim();
+            const href = $el.attr('href');
             const thumbnail = $el.find('img').attr('data-src') || $el.find('img').attr('src');
-            const duration = parseDuration($el.find('.duration, .ep-duration').text());
 
-            if (href && title) {
-                const embedUrl = href.startsWith('http') ? href : `${this.baseUrl}${href}`;
+            if (href && title && title.length > 3) {
                 videos.push(this.buildVideo({
                     title,
-                    embedUrl,
+                    embedUrl: href.startsWith('http') ? href : `${this.baseUrl}${href}`,
                     thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
-                    duration,
+                    duration: 0,
                     tags: ['Hentai', 'Anime'],
                 }));
             }

@@ -7,7 +7,7 @@ class ThisavScraper extends BaseScraper {
     }
 
     getPageUrl(page) {
-        return `${this.baseUrl}/new?page=${page}`;
+        return `${this.baseUrl}/new`;
     }
 
     async scrapePage(url) {
@@ -15,20 +15,18 @@ class ThisavScraper extends BaseScraper {
         if (!$) return [];
 
         const videos = [];
-        $('.video-item, article, .thumb').each((_, el) => {
+        $('a[href*="/video/"]').each((_, el) => {
             const $el = $(el);
-            const title = $el.find('a').attr('title') || $el.find('h3, .title').text().trim();
-            const href = $el.find('a').attr('href');
+            const title = $el.attr('title') || $el.text().trim();
+            const href = $el.attr('href');
             const thumbnail = $el.find('img').attr('data-src') || $el.find('img').attr('src');
-            const duration = parseDuration($el.find('.duration, .time').text());
 
-            if (href && title) {
-                const embedUrl = href.startsWith('http') ? href : `${this.baseUrl}${href}`;
+            if (href && title && title.length > 3) {
                 videos.push(this.buildVideo({
                     title,
-                    embedUrl,
+                    embedUrl: href.startsWith('http') ? href : `${this.baseUrl}${href}`,
                     thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
-                    duration,
+                    duration: 0,
                     tags: ['JAV', 'Japanese'],
                 }));
             }

@@ -7,7 +7,7 @@ class XhamsterScraper extends BaseScraper {
     }
 
     getPageUrl(page) {
-        return `${this.baseUrl}/newest/${page}.html`;
+        return `${this.baseUrl}/videos/best/month/${page}`;
     }
 
     async scrapePage(url) {

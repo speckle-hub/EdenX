@@ -7,7 +7,7 @@ class Rule34VideoScraper extends BaseScraper {
     }
 
     getPageUrl(page) {
-        return `${this.baseUrl}/latest/${page}`;
+        return `${this.baseUrl}/videos/?sort_by=date&page=${page}`;
     }
 
     async scrapePage(url) {
@@ -15,20 +15,18 @@ class Rule34VideoScraper extends BaseScraper {
         if (!$) return [];
 
         const videos = [];
-        $('.item, .video-item, article').each((_, el) => {
+        $('div.video-thumb, .item').each((_, el) => {
             const $el = $(el);
-            const title = $el.find('a.video_name, h3 a, .title a').text().trim()
-                || $el.find('a').attr('title');
-            const href = $el.find('a.video_name, h3 a, .title a').attr('href')
-                || $el.find('a').first().attr('href');
+            const a = $el.find('a').first();
+            const title = a.attr('title') || a.text().trim();
+            const href = a.attr('href');
             const thumbnail = $el.find('img').attr('data-src') || $el.find('img').attr('src');
             const duration = parseDuration($el.find('.duration, .time').text());
 
             if (href && title) {
-                const embedUrl = href.startsWith('http') ? href : `${this.baseUrl}${href}`;
                 videos.push(this.buildVideo({
                     title,
-                    embedUrl,
+                    embedUrl: href.startsWith('http') ? href : `${this.baseUrl}${href}`,
                     thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
                     duration,
                     tags: ['Hentai', 'Rule34'],
