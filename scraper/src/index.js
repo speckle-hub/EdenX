@@ -17,6 +17,9 @@ const PornhubJavScraper = require('./scrapers/jav/pornhub-jav');
 const MissavScraper = require('./scrapers/jav/missav');
 const ThisavScraper = require('./scrapers/jav/thisav');
 const JavmostScraper = require('./scrapers/jav/javmost');
+const JavDoeScraper = require('./scrapers/jav/javdoe');
+const XvideosJavScraper = require('./scrapers/jav/xvideos-jav');
+const XnxxJavScraper = require('./scrapers/jav/xnxx-jav');
 
 const SCRAPERS = {
     normal: [
@@ -34,10 +37,11 @@ const SCRAPERS = {
         { name: 'Rule34Video', scraper: Rule34VideoScraper },
     ],
     jav: [
-        { name: 'Pornhub JAV', scraper: PornhubJavScraper },
-        { name: 'MissAV', scraper: MissavScraper },
-        { name: 'ThisAV', scraper: ThisavScraper },
-        { name: 'JavMost', scraper: JavmostScraper },
+        // Primary: JavDoe — JAV specialist site, lightweight, no heavy bot protection
+        { name: 'JavDoe', scraper: JavDoeScraper },
+        // Fallbacks: xVideos and XNXX with Japanese-appended search queries
+        { name: 'xVideos JAV', scraper: XvideosJavScraper },
+        { name: 'XNXX JAV', scraper: XnxxJavScraper },
     ],
 };
 
