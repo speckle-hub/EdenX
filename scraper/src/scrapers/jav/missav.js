@@ -1,5 +1,5 @@
 const BaseScraper = require('../../base-scraper');
-const { parseDuration } = require('../../utils');
+const { parseDuration , parseViews} = require('../../utils');
 
 class MissavScraper extends BaseScraper {
     constructor() {
@@ -28,6 +28,7 @@ class MissavScraper extends BaseScraper {
                     thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
                     duration: 0,
                     tags: ['JAV', 'Japanese'],
+                    views: parseViews($el.find('.views, .video-views, .views-info').text()),
                 }));
             }
         });

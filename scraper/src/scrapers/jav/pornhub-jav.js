@@ -1,5 +1,5 @@
 const BaseScraper = require('../../base-scraper');
-const { parseDuration } = require('../../utils');
+const { parseDuration , parseViews} = require('../../utils');
 
 class PornhubJavScraper extends BaseScraper {
     constructor() {
@@ -35,7 +35,8 @@ class PornhubJavScraper extends BaseScraper {
                                 thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
                                 duration,
                                 tags: ['JAV', 'Japanese'],
-                            }));
+                                views: parseViews($el.find('.views, .video-views, .views-info').text()),
+                }));
                         }
                     }
                 });

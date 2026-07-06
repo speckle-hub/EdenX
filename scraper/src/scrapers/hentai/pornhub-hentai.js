@@ -1,5 +1,5 @@
 const BaseScraper = require('../../base-scraper');
-const { parseDuration } = require('../../utils');
+const { parseDuration , parseViews} = require('../../utils');
 
 class PornhubHentaiScraper extends BaseScraper {
     constructor() {
@@ -35,7 +35,8 @@ class PornhubHentaiScraper extends BaseScraper {
                                 thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
                                 duration,
                                 tags: ['Hentai'],
-                            }));
+                                views: parseViews($el.find('.views, .video-views, .views-info').text()),
+                }));
                         }
                     }
                 });

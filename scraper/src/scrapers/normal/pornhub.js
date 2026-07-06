@@ -1,5 +1,5 @@
 const BaseScraper = require('../../base-scraper');
-const { parseDuration, cleanText } = require('../../utils');
+const { parseDuration, cleanText, parseViews } = require('../../utils');
 
 class PornhubScraper extends BaseScraper {
     constructor() {
@@ -23,6 +23,7 @@ class PornhubScraper extends BaseScraper {
             const thumbnail = $el.find('img').attr('data-src') || $el.find('img').attr('src');
             const duration = parseDuration($el.find('.duration, span.duration').text());
             const rating = parseFloat($el.find('.rating-percent span').text()) || 0;
+            const views = parseViews($el.find('.views var, .video-views').text());
 
             if (href && title) {
                 const videoId = href.match(/view_video=(\d+)/)?.[1];
@@ -36,6 +37,7 @@ class PornhubScraper extends BaseScraper {
                     thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
                     duration,
                     rating: Math.round(rating),
+                    views,
                 }));
             }
         });

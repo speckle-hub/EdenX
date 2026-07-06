@@ -50,13 +50,18 @@ function showCategoriesGrid() {
     const grid = document.getElementById('categoriesGrid');
     if (!grid) return;
 
-    const cats = getAllTags();
-    grid.innerHTML = cats.map(({ tag, count }) => `
-        <div class="category-card" onclick="window.location.href='categories.html?cat=${encodeURIComponent(tag)}'">
-            <img src="https://placehold.co/600x340/1a1a25/ff2d55?text=${encodeURIComponent(tag)}" alt="${tag}" loading="lazy">
+    const mainCats = [
+        { id: 'normal', name: 'Normal', count: '10K+', color: 'ff2d55' },
+        { id: 'hentai', name: 'Hentai', count: '5K+', color: 'a855f7' },
+        { id: 'jav', name: 'JAV', count: '15K+', color: 'ec4899' }
+    ];
+
+    grid.innerHTML = mainCats.map(cat => `
+        <div class="category-card" onclick="window.location.href='categories.html?cat=${encodeURIComponent(cat.id)}'">
+            <img src="https://placehold.co/600x340/1a1a25/${cat.color}?text=${encodeURIComponent(cat.name)}" alt="${cat.name}" loading="lazy">
             <div class="category-card-overlay">
-                <div class="category-card-name">${tag}</div>
-                <div class="category-card-count">${count} videos</div>
+                <div class="category-card-name">${cat.name}</div>
+                <div class="category-card-count">Premium Videos</div>
             </div>
         </div>
     `).join('');
@@ -66,11 +71,13 @@ function showCategoryVideos(categoryId) {
     document.getElementById('categoryView')?.classList.add('hidden');
     document.getElementById('categoryVideosView')?.classList.remove('hidden');
 
-    const videos = getVideosByTag(categoryId);
+    const videos = getVideosByCategory(categoryId);
     const titleEl = document.getElementById('categoryTitle');
     if (titleEl) {
-        titleEl.innerHTML = `${categoryId} <span class="count" style="font-size:1rem;font-weight:400;color:var(--text-muted);">(${videos.length} videos)</span>`;
-        document.title = `${categoryId} Videos | EdenX`;
+        // Capitalize categoryId for display
+        const displayCat = categoryId.charAt(0).toUpperCase() + categoryId.slice(1);
+        titleEl.innerHTML = `${displayCat} <span class="count" style="font-size:1rem;font-weight:400;color:var(--text-muted);">(${videos.length} videos)</span>`;
+        document.title = `${displayCat} Videos | EdenX`;
     }
 
     const grid = document.getElementById('categoryVideosGrid');

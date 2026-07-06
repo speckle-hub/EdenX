@@ -1,5 +1,5 @@
 const BaseScraper = require('../../base-scraper');
-const { parseDuration } = require('../../utils');
+const { parseDuration , parseViews} = require('../../utils');
 
 class Rule34VideoScraper extends BaseScraper {
     constructor() {
@@ -30,6 +30,7 @@ class Rule34VideoScraper extends BaseScraper {
                     thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
                     duration,
                     tags: ['Hentai', 'Rule34'],
+                    views: parseViews($el.find('.views, .video-views, .views-info').text()),
                 }));
             }
         });

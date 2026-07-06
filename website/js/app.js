@@ -102,8 +102,8 @@ function initCategoryPills() {
 function filterVideosByCategory(category) {
     document.querySelectorAll('.video-grid').forEach(grid => {
         grid.querySelectorAll('.video-card').forEach(card => {
-            const cats = card.dataset.categories?.split(',') || [];
-            card.style.display = (category === 'all' || cats.includes(category)) ? '' : 'none';
+            const videoCategory = card.dataset.mainCategory || 'normal';
+            card.style.display = (category === 'all' || videoCategory === category) ? '' : 'none';
         });
     });
 }
@@ -140,6 +140,7 @@ function createVideoCard(video, featured = false) {
     return `
         <div class="video-card ${featured ? 'featured' : ''}"
              data-categories="${(video.tags || []).map(t => t.toLowerCase()).join(',')}"
+             data-main-category="${video.category || 'normal'}"
              onclick="playVideo('${video.id}')">
             <div class="video-thumbnail">
                 <img src="${video.thumbnail}" alt="${video.title}" loading="lazy"

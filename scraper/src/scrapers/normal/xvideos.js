@@ -1,5 +1,5 @@
 const BaseScraper = require('../../base-scraper');
-const { parseDuration } = require('../../utils');
+const { parseDuration , parseViews} = require('../../utils');
 
 class XvideosScraper extends BaseScraper {
     constructor() {
@@ -33,6 +33,7 @@ class XvideosScraper extends BaseScraper {
                     thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
                     duration,
                     rating: Math.round(rating * 20),
+                    views: parseViews($el.find('.views, .video-views, .views-info').text()),
                 }));
             }
         });

@@ -1,5 +1,5 @@
 const BaseScraper = require('../../base-scraper');
-const { parseDuration } = require('../../utils');
+const { parseDuration , parseViews} = require('../../utils');
 
 class RedtubeScraper extends BaseScraper {
     constructor() {
@@ -32,6 +32,7 @@ class RedtubeScraper extends BaseScraper {
                     embedUrl: href.startsWith('http') ? embedUrl : `https://embed.redtube.com/?id=${videoId}`,
                     thumbnail: thumbnail?.startsWith('http') ? thumbnail : '',
                     duration,
+                    views: parseViews($el.find('.views, .video-views, .views-info').text()),
                 }));
             }
         });
