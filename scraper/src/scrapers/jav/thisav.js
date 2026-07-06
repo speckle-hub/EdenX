@@ -6,6 +6,11 @@ class ThisavScraper extends BaseScraper {
         super('ThisAV', 'jav', 'https://thisav.com');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/search?q=${encodeURIComponent(query)}&page=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/new`;
     }

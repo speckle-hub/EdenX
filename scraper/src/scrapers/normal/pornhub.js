@@ -6,6 +6,11 @@ class PornhubScraper extends BaseScraper {
         super('Pornhub', 'normal', 'https://www.pornhub.com');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/video/search?search=${encodeURIComponent(query)}&page=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/video?page=${page}`;
     }

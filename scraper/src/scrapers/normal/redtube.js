@@ -6,6 +6,11 @@ class RedtubeScraper extends BaseScraper {
         super('RedTube', 'normal', 'https://www.redtube.com');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/search?q=${encodeURIComponent(query)}&page=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/newest?page=${page}`;
     }

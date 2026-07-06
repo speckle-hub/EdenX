@@ -6,6 +6,11 @@ class HanimeScraper extends BaseScraper {
         super('Hanime', 'hentai', 'https://hanime.tv');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/search?q=${encodeURIComponent(query)}&page=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/hentai/videos`;
     }

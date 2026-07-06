@@ -6,6 +6,11 @@ class XhamsterScraper extends BaseScraper {
         super('xHamster', 'normal', 'https://xhamster.com');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/search/${encodeURIComponent(query)}?page=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/videos/best/month/${page}`;
     }

@@ -6,6 +6,11 @@ class MissavScraper extends BaseScraper {
         super('MissAV', 'jav', 'https://missav.ws');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/search?q=${encodeURIComponent(query)}&page=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/genres/av-idol`;
     }

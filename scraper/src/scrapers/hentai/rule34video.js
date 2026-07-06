@@ -6,6 +6,11 @@ class Rule34VideoScraper extends BaseScraper {
         super('Rule34Video', 'hentai', 'https://rule34video.com');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/search?q=${encodeURIComponent(query)}&page=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/videos/?sort_by=date&page=${page}`;
     }

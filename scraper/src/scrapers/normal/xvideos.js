@@ -6,6 +6,11 @@ class XvideosScraper extends BaseScraper {
         super('xVideos', 'normal', 'https://www.xvideos.com');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/?k=${encodeURIComponent(query)}&p=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/best/${page}/month`;
     }

@@ -96,10 +96,10 @@ Examples:
 `);
 }
 
-async function runScraper(ScraperClass, pages) {
+async function runScraper(ScraperClass, pages, query = null) {
     const scraper = new ScraperClass();
     try {
-        return await scraper.scrape(pages);
+        return await scraper.scrape(pages, query);
     } catch (err) {
         console.error(`  [${scraper.name}] Error: ${err.message}`);
         return [];
@@ -137,6 +137,16 @@ async function main() {
 
     const results = { normal: [], hentai: [], jav: [] };
 
+    const pornstarsFile = path.join(options.output, 'pornstars.json');
+    let pornstarsList = [];
+    if (fs.existsSync(pornstarsFile)) {
+        const psData = JSON.parse(fs.readFileSync(pornstarsFile, 'utf8'));
+        pornstarsList = psData.pornstars.map(p => p.name);
+        // Shuffle and take 5 to avoid rate limits
+        pornstarsList = pornstarsList.sort(() => 0.5 - Math.random()).slice(0, 5);
+        console.log(`Targeting ${pornstarsList.length} pornstars: ${pornstarsList.join(', ')}`);
+    }
+
     for (const category of options.categories) {
         if (!SCRAPERS[category]) {
             console.log(`\nUnknown category: ${category}`);
@@ -146,8 +156,17 @@ async function main() {
         console.log(`\n--- Scraping ${category.toUpperCase()} ---`);
 
         for (const { name, scraper: ScraperClass } of SCRAPERS[category]) {
-            const videos = await runScraper(ScraperClass, options.pages);
-            results[category].push(...videos);
+            if (pornstarsList.length > 0) {
+                // Search for each selected pornstar
+                for (const psName of pornstarsList) {
+                    const videos = await runScraper(ScraperClass, options.pages, psName);
+                    results[category].push(...videos);
+                }
+            } else {
+                // Fallback to generic if no pornstars found
+                const videos = await runScraper(ScraperClass, options.pages);
+                results[category].push(...videos);
+            }
         }
 
         results[category] = deduplicate(results[category]);

@@ -44,21 +44,33 @@ class BaseScraper {
         };
     }
 
+    getSearchUrl(query, page) {
+        throw new Error('getSearchUrl() must be implemented for search');
+    }
+
     async scrapePage(pageUrl) {
         throw new Error('scrapePage() must be implemented by subclass');
     }
 
-    async scrape(pagesToScrape = 5) {
-        console.log(`\n[${this.name}] Starting scrape (${this.category})...`);
+    async scrape(pagesToScrape = 5, query = null) {
+        const mode = query ? `Search: ${query}` : this.category;
+        console.log(`\n[${this.name}] Starting scrape (${mode})...`);
         const allVideos = [];
 
         for (let page = 1; page <= pagesToScrape; page++) {
             console.log(`  [${this.name}] Page ${page}/${pagesToScrape}...`);
-            const pageUrl = this.getPageUrl(page);
+            const pageUrl = query ? this.getSearchUrl(query, page) : this.getPageUrl(page);
             const videos = await this.scrapePage(pageUrl, page);
             if (!videos || videos.length === 0) {
                 console.log(`  [${this.name}] No results on page ${page}, stopping.`);
                 break;
+            }
+            // If we searched for a pornstar, tag the video with her name
+            if (query) {
+                videos.forEach(v => {
+                    if (!v.pornstars.includes(query)) v.pornstars.push(query);
+                    if (!v.tags.includes(query)) v.tags.push(query);
+                });
             }
             allVideos.push(...videos);
             console.log(`  [${this.name}] Got ${videos.length} videos (total: ${allVideos.length})`);

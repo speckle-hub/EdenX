@@ -6,6 +6,11 @@ class XnxxScraper extends BaseScraper {
         super('XNXX', 'normal', 'https://www.xnxx.com');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/search/${encodeURIComponent(query)}/${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/best/${page}/month`;
     }

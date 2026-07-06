@@ -6,6 +6,11 @@ class YoupornScraper extends BaseScraper {
         super('YouPorn', 'normal', 'https://www.youporn.com');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/search?q=${encodeURIComponent(query)}&page=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/hot/${page}`;
     }

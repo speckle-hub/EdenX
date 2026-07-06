@@ -6,6 +6,11 @@ class JavmostScraper extends BaseScraper {
         super('JavMost', 'jav', 'https://javmost.com');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/search?q=${encodeURIComponent(query)}&page=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/`;
     }

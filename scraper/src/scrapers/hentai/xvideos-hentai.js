@@ -6,6 +6,11 @@ class XvideosHentaiScraper extends BaseScraper {
         super('xVideos Hentai', 'hentai', 'https://www.xvideos.com');
     }
 
+    
+    getSearchUrl(query, page) {
+        return `${this.baseUrl}/?k=${encodeURIComponent(query)}&p=${page}`;
+    }
+
     getPageUrl(page) {
         return `${this.baseUrl}/best/${page}/month?k=hentai`;
     }
